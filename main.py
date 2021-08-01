@@ -229,8 +229,8 @@ async def check_for_clips():
             userName = getNameFromCredits(newClip['credits'])
             print("New clip from" + userName)
             message = "Check out this new clip from **" + userName + "**!\n" + newClip['directClipUrl']
-            for channelID in medalUsers[user]:
-                channel = bot.get_channel(channelID)
+            for guildID in medalUsers[user]:
+                channel = bot.get_channel(discordChannels[guildID])
                 await channel.send(message)
     
 
