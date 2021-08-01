@@ -2,10 +2,16 @@ from discord.channel import TextChannel
 import requests
 from discord import Embed
 from discord.ext import tasks, commands
+from dotenv import load_dotenv
 import os
 import pickle
 
-MEDALKEY = "KEY HERE"
+## TOKENS
+load_dotenv()
+MEDAL_TOKEN = os.getenv('MEDAL_TOKEN')
+DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+
+### Globals
 
 medalUsers = {} # Key: MedalUserID, Value: GuildID[]
 medalLatest = {} # Key: MedalUserID, Value: contentID
@@ -40,7 +46,7 @@ def getValidUserID(arg):
     return userID
 
 def requestLatestUserClip(userID):
-    requestHeader = {'Authorization' : MEDALKEY}
+    requestHeader = {'Authorization' : MEDAL_TOKEN}
     requestURL = "https://developers.medal.tv/v1/latest?userId="+ userID +"&limit=1"
     response = requests.get(requestURL, headers=requestHeader)
 
@@ -106,8 +112,6 @@ def loadPickleDict(name):
 
 
 ### Discord Bot Area
-DISCORD_TOKEN = 'TOKEN HERE'
-
 CHANNEL_NOT_SET_MSG = "The clips channel for this Discord server isn't set yet.\nUse **medal channel #[channel_here]** to set the channel."
 
 COLOUR_ERROR = 0xb00000
